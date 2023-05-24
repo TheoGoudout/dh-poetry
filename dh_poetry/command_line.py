@@ -83,8 +83,12 @@ def main():
         # Set VIRTUAL_ENV only for `poetry`, to make sure it installs files in
         # the right location.
         venv_dir = os.path.dirname(bin_dir)
-        environment['VIRTUAL_ENV'] = environment.get('VIRTUAL_ENV', venv_dir)
-    print("Executing", cmd_args, "with environment", environment)
+        venv_dir = os.path.realpath(environment.get('VIRTUAL_ENV', venv_dir))
+        poetry_env = {
+            'POETRY_VIRTUALENVS_PATH': os.path.dirname(venv_dir),
+        }
+        environment.update(poetry_env)
+    print("Executing", cmd_args, "with environment", poetry_env)
     subprocess.check_call(cmd_args, env=environment)
 
 
