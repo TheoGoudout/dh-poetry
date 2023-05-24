@@ -84,6 +84,7 @@ def main():
         # the right location.
         venv_dir = os.path.dirname(bin_dir)
         environment['VIRTUAL_ENV'] = environment.get('VIRTUAL_ENV', venv_dir)
+    print("Executing", cmd_args, "with environment", environment)
     subprocess.check_call(cmd_args, env=environment)
 
 
