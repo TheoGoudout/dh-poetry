@@ -79,7 +79,9 @@ def main():
         assert lockfile_exists, "poetry.lock doesn't exist"
         # Get args
         poetry_args = convert_pip_args_to_poetry_args(sys.argv[1:])
-        cmd_args = [poetry_path] + poetry_args
+        poetry_extra_args = environment.get('POETRY_EXTRA_ARGS', '')
+        poetry_extra_args = [arg for arg in poetry_extra_args.split(',') if arg]
+        cmd_args = [poetry_path] + poetry_args + poetry_extra_args
         # Set VIRTUAL_ENV only for `poetry`, to make sure it installs files in
         # the right location.
         venv_dir = os.path.dirname(bin_dir)
